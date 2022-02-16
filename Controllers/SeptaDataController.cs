@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SeptaTracker.Models;
+using SeptaTracker.Services;
 
 namespace SeptaTracker.Controllers;
 
@@ -8,16 +9,18 @@ namespace SeptaTracker.Controllers;
 public class SeptaDataController : ControllerBase
 {
     private readonly ILogger<SeptaData> _logger;
-
-    public SeptaDataController(ILogger<SeptaData> logger)
+    private readonly SeptaService _septaService;
+    public SeptaDataController(ILogger<SeptaData> logger, SeptaService septaService)
     {
         _logger = logger;
+        _septaService = septaService;
     }
 
-    [HttpGet(Name = "GetSeptaData")]
-    public IEnumerable<SeptaData> Get()
+    [HttpGet(Name = "CheckStatus")]
+    public async Task<bool> CheckStatus(string railLine)
     {
-        var result = new List<SeptaData>();
-        return result;
+        var septaData = await _septaService.GetSeptaDataAsync();
+        var lineData = septaData.FirstOrDefault(i => i.line == railLine);
+        return lineData?.late > 0;
     }
 }

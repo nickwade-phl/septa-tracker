@@ -12,7 +12,7 @@ public class SeptaData
     public string? line { get; set; }
     public string? consist { get; set; }
     public double heading { get; set; }
-    public bool late { get; set; }
+    public int late { get; set; }
     public string? SOURCE { get; set; }
     public string? TRACK { get; set; }
     public string? TRACK_CHANGE { get; set; }
